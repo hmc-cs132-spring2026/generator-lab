@@ -16,7 +16,7 @@ import Expr (Expr(..))
   '*'      { TokenTimes }
   '('      { TokenLParen }
   ')'      { TokenRParen }
-  int      { TokenInt $$ }
+  INT      { TokenInt $$ }
 
 %%
 
@@ -24,7 +24,7 @@ import Expr (Expr(..))
 Exp : Exp '+' Exp    { Plus  $1 $3 }
     | Exp '*' Exp    { Times $1 $3 }
     | '(' Exp ')'    { $2 }
-    | int            { Int $1 }
+    | INT            { Int $1 }
 
 -- Additional code
 {
