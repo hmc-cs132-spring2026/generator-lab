@@ -6,9 +6,6 @@ import Tokens (Token(..))
 
 %wrapper "basic"
 
--- Macros
-$digit  = [0-9]
-
 -- Token definitions
 tokens :-
   $white+  ; -- ignore whitespace
