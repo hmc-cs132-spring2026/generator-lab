@@ -1,0 +1,18 @@
+{
+  "haskell.manageHLS": "GHCup",
+  "haskell.formattingProvider": "stylish-haskell",
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "cmdargs",
+    "ghci",
+    "ghcup",
+    "HLINT",
+    "hspec",
+    "odir",
+    "phoityne",
+    "unrecognised",
+    "yytext",
+    "Stackage",
+    "subdirs"
+  ],
+}

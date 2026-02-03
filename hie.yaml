@@ -1,0 +1,11 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "calc:lib"
+
+    - path: "./app"
+      component: "calc:exe:calc-exe"
+
+    - path: "./test"
+      component: "calc:test:calc-test"
+
