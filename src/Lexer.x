@@ -16,7 +16,7 @@ tokens :-
   "*"      {\_ -> TokenTimes}
   "("      {\_ -> TokenLParen}
   ")"      {\_ -> TokenRParen}
-  $digit+  {\s -> TokenInt (read s)}
+  [0-9]+   {\s -> TokenInt (read s)}
 
 {
 
