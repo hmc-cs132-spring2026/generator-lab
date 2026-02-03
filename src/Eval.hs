@@ -8,4 +8,6 @@ import           Expr (Expr (..))
 eval :: Expr -> Int
 eval (Int n)       = n
 eval (Plus e1 e2)  = eval e1 + eval e2
+eval (Minus e1 e2) = eval e1 - eval e2
 eval (Times e1 e2) = eval e1 * eval e2
+eval (Div e1 e2)   = eval e1 `div` eval e2

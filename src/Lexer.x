@@ -10,7 +10,9 @@ import Tokens (Token(..))
 tokens :-
   $white+  ; -- ignore whitespace
   "+"      {\_ -> TokenPlus}
+  "-"      {\_ -> TokenMinus}
   "*"      {\_ -> TokenTimes}
+  "/"      {\_ -> TokenDiv}
   "("      {\_ -> TokenLParen}
   ")"      {\_ -> TokenRParen}
   [0-9]+   {\s -> TokenInt (read s)}

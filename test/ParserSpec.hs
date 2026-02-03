@@ -13,14 +13,6 @@ spec :: Spec
 spec = do
   describe "Parser.parse" $ do
 
-    -- NOTE: Tests in this file intentionally FAIL because the parser
-    -- has bugs. The grammar in Parser.y doesn't specify:
-    --   1. Operator precedence (multiplication should bind tighter than addition)
-    --   2. Operator associativity (all operators should be left-associative)
-    --
-    -- Fix the bugs in the parser so that tests pass (and potentially add more tests of
-    -- your own)!
-
     -- Basic literal parsing
     describe "integer literals" $ do
       it "parses zero" $
@@ -42,6 +34,12 @@ spec = do
 
       it "parses multiplication" $
         parse "4 * 7" `shouldBe` Times (Int 4) (Int 7)
+
+      it "parses subtraction" $
+        parse "5 - 3" `shouldBe` Minus (Int 5) (Int 3)
+
+      it "parses division" $
+        parse "8 / 2" `shouldBe` Div (Int 8) (Int 2)
 
     -- Whitespace handling
     describe "whitespace handling" $ do
@@ -74,6 +72,19 @@ spec = do
         parse "2 + 3 * 4 + 5" `shouldBe`
           Plus (Plus (Int 2) (Times (Int 3) (Int 4))) (Int 5)
 
+      it "division has higher precedence than subtraction" $
+        parse "10 / 6 - 2" `shouldBe` Minus (Div (Int 10) (Int 6)) (Int 2)
+
+      it "multiplication has higher precedence than subtraction" $
+        parse "1 * 2 - 3" `shouldBe` Minus (Times (Int 1) (Int 2)) (Int 3)
+
+      it "division has higher precedence than addition" $
+        parse "10 / 6 + 2" `shouldBe` Plus (Div (Int 10) (Int 6)) (Int 2)
+
+      it "respects precedence in complex expression" $
+        parse "2 + 3 * 4 - 5" `shouldBe`
+          Minus (Plus (Int 2) (Times (Int 3) (Int 4))) (Int 5)
+
     -- Operator associativity tests
     describe "operator associativity (should be left-associative)" $ do
       it "addition is left-associative" $
@@ -82,6 +93,11 @@ spec = do
       it "multiplication is left-associative" $
         parse "2 * 3 * 4" `shouldBe` Times (Times (Int 2) (Int 3)) (Int 4)
 
+      it "subtraction is left-associative" $
+        parse "10 - 3 - 2" `shouldBe` Minus (Minus (Int 10) (Int 3)) (Int 2)
+
+      it "division is left-associative" $
+        parse "20 / 4 / 2" `shouldBe` Div (Div (Int 20) (Int 4)) (Int 2)
 
     -- Complex expressions
     describe "complex expressions" $ do
@@ -89,3 +105,7 @@ spec = do
         parse "(1 + 2) * (3 + 4)" `shouldBe`
           Times (Plus (Int 1) (Int 2)) (Plus (Int 3) (Int 4))
 
+    describe "complex expressions" $ do
+      it "parses complex nested expression" $
+        parse "(1 + 2) * (3 - 4)" `shouldBe`
+          Times (Plus (Int 1) (Int 2)) (Minus (Int 3) (Int 4))
